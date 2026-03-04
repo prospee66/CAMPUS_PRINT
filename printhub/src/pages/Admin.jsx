@@ -74,7 +74,7 @@ export default function Admin() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
             { label: 'Total Orders', value: orders.length, icon: Package, color: 'text-primary-600 bg-primary-50' },
             { label: 'Today\'s Revenue', value: formatCurrency(todayRevenue), icon: TrendingUp, color: 'text-emerald-600 bg-emerald-50' },
@@ -92,7 +92,7 @@ export default function Admin() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-gray-200">
+        <div className="flex gap-1 mb-6 border-b border-gray-200 overflow-x-auto pb-px -mx-1 px-1 scrollbar-none">
           {[['orders', 'Orders'], ['notifications', `Notifications${unreadCount > 0 ? ` (${unreadCount})` : ''}`], ['revenue', 'Revenue'], ['pricing', 'Manage Pricing']].map(([tab, label]) => (
             <button
               key={tab}
@@ -232,7 +232,11 @@ export default function Admin() {
                         {n.delivery && <span className="capitalize">{n.delivery}</span>}
                       </div>
                     </div>
-                    <button className="btn-outline text-xs py-1 px-2 shrink-0 flex items-center gap-1">
+                    <button
+                      onClick={() => window.print()}
+                      className="btn-outline text-xs py-1.5 px-3 shrink-0 flex items-center gap-1.5 min-h-0 h-auto"
+                      title="Print order details"
+                    >
                       <Printer size={12} /> Print
                     </button>
                   </div>

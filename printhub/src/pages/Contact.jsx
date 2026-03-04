@@ -28,7 +28,7 @@ export default function Contact() {
           <p className="section-subtitle">We're here to help. Reach us any way you prefer.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Contact Form */}
           <div className="card">
             <h2 className="text-xl font-bold text-gray-900 mb-5">Send Us a Message</h2>

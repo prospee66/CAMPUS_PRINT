@@ -116,12 +116,12 @@ export default function Track() {
 
               {/* Progress bar */}
               <div className="mb-5">
-                <div className="flex justify-between text-xs text-gray-400 mb-2">
+                <div className="hidden sm:flex justify-between text-xs text-gray-400 mb-2">
                   <span>Received</span><span>Printing</span><span>Ready</span><span>Done</span>
                 </div>
-                <div className="relative h-2 bg-gray-200 rounded-full">
+                <div className="relative h-2.5 bg-gray-200 rounded-full">
                   <div
-                    className="absolute h-2 bg-primary-600 rounded-full transition-all"
+                    className="absolute h-2.5 bg-primary-600 rounded-full transition-all duration-500"
                     style={{ width: `${(cfg.step / 3) * 100}%` }}
                   />
                 </div>

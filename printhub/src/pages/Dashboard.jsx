@@ -51,7 +51,7 @@ export default function Dashboard() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           {[
             { label: 'Total Orders', value: MOCK_ORDERS.length, icon: FileText, color: 'text-primary-600 bg-primary-50' },
             { label: 'Completed', value: completedCount, icon: Package, color: 'text-emerald-600 bg-emerald-50' },
@@ -68,7 +68,7 @@ export default function Dashboard() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-gray-200">
+        <div className="flex gap-1 mb-6 border-b border-gray-200 overflow-x-auto pb-px scrollbar-none">
           {[['orders', 'Order History'], ['profile', 'Profile Settings']].map(([tab, label]) => (
             <button
               key={tab}
