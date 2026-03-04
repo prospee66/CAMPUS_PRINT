@@ -4,12 +4,7 @@ import { FileText, RefreshCw, Download, Settings, Clock, Package } from 'lucide-
 import { useAuth } from '../context/AuthContext';
 import { formatCurrency, formatDate } from '../utils/orderRef';
 
-const MOCK_ORDERS = [
-  { id: 'PH-LQK1B-XY92', date: '2026-03-04', files: ['Thesis_Chapter1.pdf', 'Appendix.docx'], total: 24.50, status: 'printing', pages: 48, colorMode: 'bw' },
-  { id: 'PH-DEMO1-TEST', date: '2026-03-03', files: ['Assignment3.pdf'], total: 3.50, status: 'completed', pages: 7, colorMode: 'bw' },
-  { id: 'PH-AB12C-GH45', date: '2026-02-28', files: ['Presentation.pptx'], total: 14.00, status: 'completed', pages: 7, colorMode: 'color' },
-  { id: 'PH-ZQ9X1-LK77', date: '2026-02-20', files: ['Lab_Report.docx', 'Data.xlsx'], total: 6.00, status: 'cancelled', pages: 12, colorMode: 'bw' },
-];
+const orders = [];
 
 const STATUS_BADGE = {
   pending: 'badge-pending',
@@ -24,17 +19,17 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('orders');
   const [profile, setProfile] = useState({
     name: user?.name || '',
-    email: 'student@uni.edu',
-    studentId: 'UG-2024-001',
-    campus: 'Legon',
+    email: user?.email || '',
+    studentId: '',
+    campus: '',
     defaultDelivery: 'pickup',
   });
 
   if (!user) return <Navigate to="/login" replace />;
   if (user.role === 'admin') return <Navigate to="/admin" replace />;
 
-  const totalSpent = MOCK_ORDERS.filter(o => o.status !== 'cancelled').reduce((s, o) => s + o.total, 0);
-  const completedCount = MOCK_ORDERS.filter(o => o.status === 'completed').length;
+  const totalSpent = orders.filter(o => o.status !== 'cancelled').reduce((s, o) => s + o.total, 0);
+  const completedCount = orders.filter(o => o.status === 'completed').length;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -53,7 +48,7 @@ export default function Dashboard() {
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           {[
-            { label: 'Total Orders', value: MOCK_ORDERS.length, icon: FileText, color: 'text-primary-600 bg-primary-50' },
+            { label: 'Total Orders', value: orders.length, icon: FileText, color: 'text-primary-600 bg-primary-50' },
             { label: 'Completed', value: completedCount, icon: Package, color: 'text-emerald-600 bg-emerald-50' },
             { label: 'Total Spent', value: formatCurrency(totalSpent), icon: Clock, color: 'text-amber-600 bg-amber-50' },
           ].map((s, i) => (
@@ -85,7 +80,17 @@ export default function Dashboard() {
         {/* Orders Tab */}
         {activeTab === 'orders' && (
           <div className="space-y-3">
-            {MOCK_ORDERS.map(order => (
+            {orders.length === 0 && (
+              <div className="card text-center py-16">
+                <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <FileText size={28} className="text-gray-300" />
+                </div>
+                <p className="font-semibold text-gray-500">No orders yet</p>
+                <p className="text-sm text-gray-400 mt-1 mb-5">Your print orders will appear here once you place one.</p>
+                <Link to="/order" className="btn-primary inline-flex">+ Place Your First Order</Link>
+              </div>
+            )}
+            {orders.map(order => (
               <div key={order.id} className="card hover:shadow-md transition-shadow">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">

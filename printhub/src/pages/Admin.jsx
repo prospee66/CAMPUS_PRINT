@@ -18,13 +18,6 @@ function timeAgo(iso) {
   return `${Math.floor(hrs / 24)}d ago`;
 }
 
-const MOCK_ORDERS = [
-  { id: 'PH-LQK1B-XY92', student: 'Kofi Mensah', email: 'kofi@uni.edu', date: '2026-03-04T09:00:00', files: ['Thesis_Chapter1.pdf', 'Appendix.docx'], total: 24.50, status: 'printing', pages: 48, paid: true },
-  { id: 'PH-DEMO1-TEST', student: 'Abena K.', email: 'abena@uni.edu', date: '2026-03-03T07:00:00', files: ['Assignment3.pdf'], total: 3.50, status: 'completed', pages: 7, paid: true },
-  { id: 'PH-AB12C-GH45', student: 'Kwame A.', email: 'kwame@knust.edu.gh', date: '2026-02-28T11:00:00', files: ['Presentation.pptx'], total: 14.00, status: 'completed', pages: 7, paid: true },
-  { id: 'PH-ZQ9X1-LK77', student: 'Ama O.', email: 'ama@ashesi.edu.gh', date: '2026-02-20T08:30:00', files: ['Lab_Report.docx'], total: 6.00, status: 'cancelled', pages: 12, paid: false },
-  { id: 'PH-MN23P-RT56', student: 'Yaw B.', email: 'yaw@ucc.edu.gh', date: '2026-03-04T08:00:00', files: ['Research.pdf'], total: 8.00, status: 'received', pages: 16, paid: true },
-];
 
 const STATUS_BADGE = {
   received: 'badge-pending',
@@ -40,15 +33,16 @@ const STATUS_FLOW = ['received', 'printing', 'ready', 'completed'];
 export default function Admin() {
   const { user } = useAuth();
   const { notifications, unreadCount, markRead, markAllRead, clearAll } = useNotifications();
-  const [orders, setOrders] = useState(MOCK_ORDERS);
+  const [orders, setOrders] = useState([]);
   const [filterStatus, setFilterStatus] = useState('all');
   const [activeTab, setActiveTab] = useState('orders');
 
   if (!user) return <Navigate to="/admin/login" replace />;
   if (user.role !== 'admin') return <Navigate to="/dashboard" replace />;
 
+  const today = new Date().toISOString().slice(0, 10);
   const revenue = orders.filter(o => o.paid && o.status !== 'cancelled').reduce((s, o) => s + o.total, 0);
-  const todayRevenue = orders.filter(o => o.paid && o.status !== 'cancelled' && o.date.startsWith('2026-03-04')).reduce((s, o) => s + o.total, 0);
+  const todayRevenue = orders.filter(o => o.paid && o.status !== 'cancelled' && o.date.startsWith(today)).reduce((s, o) => s + o.total, 0);
 
   const advanceStatus = (id) => {
     setOrders(prev => prev.map(o => {
@@ -125,6 +119,15 @@ export default function Admin() {
             </div>
 
             <div className="space-y-3">
+              {filtered.length === 0 && (
+                <div className="card text-center py-16">
+                  <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Package size={28} className="text-gray-300" />
+                  </div>
+                  <p className="font-semibold text-gray-500">No orders yet</p>
+                  <p className="text-sm text-gray-400 mt-1">Orders placed by customers will appear here.</p>
+                </div>
+              )}
               {filtered.map(order => (
                 <div key={order.id} className="card">
                   <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -271,7 +274,7 @@ export default function Admin() {
               <div className="space-y-2">
                 {['completed', 'printing', 'received', 'cancelled'].map(s => {
                   const count = orders.filter(o => o.status === s).length;
-                  const pct = (count / orders.length) * 100;
+                  const pct = orders.length === 0 ? 0 : (count / orders.length) * 100;
                   return (
                     <div key={s} className="flex items-center gap-3">
                       <span className="text-xs text-gray-500 w-20 capitalize">{s}</span>
