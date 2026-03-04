@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create vite@latest . -- --template react --yes)",
+      "Bash(npm install react-router-dom @paystack/inline-js react-dropzone axios react-hot-toast lucide-react)",
+      "Bash(npm install -D tailwindcss@3 postcss autoprefixer)",
+      "Bash(npx tailwindcss init -p)"
+    ]
+  }
+}
