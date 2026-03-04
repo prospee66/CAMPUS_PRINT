@@ -1,0 +1,6 @@
+{
+  "outputDirectory": "printhub/dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

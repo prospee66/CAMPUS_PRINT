@@ -1,1 +1,7 @@
-{}
+{
+  "name": "campus-print-root",
+  "scripts": {
+    "build": "cd printhub && npm install && npm run build",
+    "dev": "cd printhub && npm install && npm run dev"
+  }
+}
