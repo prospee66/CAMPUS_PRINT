@@ -24,7 +24,7 @@ export default function PaystackButton({ amount, email, orderRef, onSuccess, onC
         amount: Math.round(amount * 100), // convert to pesewas
         currency: 'GHS',
         ref: orderRef,
-        label: 'PrintHub Order',
+        label: 'CampusPrint Order',
         onSuccess: (transaction) => {
           setLoading(false);
           onSuccess(transaction);

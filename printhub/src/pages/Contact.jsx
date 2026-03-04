@@ -102,8 +102,8 @@ export default function Contact() {
               {
                 icon: Mail,
                 title: 'Email Us',
-                desc: 'hello@printhub.com',
-                link: 'mailto:hello@printhub.com',
+                desc: 'hello@campusprint.com',
+                link: 'mailto:hello@campusprint.com',
                 color: 'text-amber-600 bg-amber-50',
               },
             ].map((c, i) => (

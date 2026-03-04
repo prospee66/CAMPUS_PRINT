@@ -46,7 +46,7 @@ export default function AdminLogin() {
             <ShieldCheck size={28} className="text-white" />
           </div>
           <h1 className="text-xl font-bold text-white">Admin Access</h1>
-          <p className="text-gray-400 text-sm mt-1">PrintHub — Restricted Portal</p>
+          <p className="text-gray-400 text-sm mt-1">CampusPrint — Restricted Portal</p>
         </div>
 
         <div className="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-xl">
@@ -58,7 +58,7 @@ export default function AdminLogin() {
               <input
                 id="email"
                 type="email"
-                placeholder="admin@printhub.com"
+                placeholder="admin@campusprint.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 className="w-full bg-gray-700 border border-gray-600 text-white placeholder-gray-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"

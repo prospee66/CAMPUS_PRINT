@@ -12,7 +12,7 @@ export default function Footer() {
               <div className="bg-primary-600 text-white p-1.5 rounded-lg">
                 <Printer size={20} />
               </div>
-              PrintHub
+              CampusPrint
             </Link>
             <p className="text-sm text-gray-400 mb-4">
               Fast, affordable campus printing. Upload from anywhere, collect when ready.
@@ -63,7 +63,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} className="text-primary-400" />
-                <a href="mailto:hello@printhub.com" className="hover:text-primary-400 transition-colors">hello@printhub.com</a>
+                <a href="mailto:hello@campusprint.com" className="hover:text-primary-400 transition-colors">hello@campusprint.com</a>
               </li>
             </ul>
             <div className="mt-4 text-xs text-gray-500">
@@ -74,7 +74,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500">
-          <p>© {new Date().getFullYear()} PrintHub. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} CampusPrint. All rights reserved.</p>
           <div className="flex gap-4 mt-3 sm:mt-0">
             <a href="#" className="hover:text-gray-300">Privacy Policy</a>
             <a href="#" className="hover:text-gray-300">Terms of Service</a>

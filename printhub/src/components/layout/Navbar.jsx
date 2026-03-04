@@ -157,7 +157,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 font-bold text-xl text-primary-600 shrink-0">
             <div className="bg-primary-600 text-white p-1.5 rounded-lg"><Printer size={20} /></div>
-            PrintHub
+            CampusPrint
           </Link>
 
           {/* Desktop Nav */}

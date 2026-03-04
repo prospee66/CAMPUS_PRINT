@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext(null);
 
-const ADMIN_EMAIL = 'admin@printhub.com';
+const ADMIN_EMAIL = 'admin@campusprint.com';
 const ADMIN_PASSWORD = 'admin123'; // In production: store hashed in env / backend
 
 const MAX_ATTEMPTS = 5;

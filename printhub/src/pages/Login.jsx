@@ -35,7 +35,7 @@ export default function Login() {
             <div className="bg-primary-600 text-white p-2 rounded-xl">
               <Printer size={22} />
             </div>
-            PrintHub
+            CampusPrint
           </Link>
           <p className="text-gray-500 text-sm mt-2">Sign in to manage your print orders</p>
         </div>

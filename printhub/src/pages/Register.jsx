@@ -46,7 +46,7 @@ export default function Register() {
     const result = register({ name: form.name, email: form.email, password: form.password });
     setLoading(false);
     if (result.success) {
-      toast.success('Account created! Welcome to PrintHub.');
+      toast.success('Account created! Welcome to CampusPrint.');
       navigate('/dashboard');
     } else {
       toast.error(result.error || 'Registration failed');
@@ -63,7 +63,7 @@ export default function Register() {
             <div className="bg-primary-600 text-white p-2 rounded-xl">
               <Printer size={22} />
             </div>
-            PrintHub
+            CampusPrint
           </Link>
           <p className="text-gray-500 text-sm mt-2">Create a free account to manage your orders</p>
         </div>
