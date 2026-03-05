@@ -7,6 +7,20 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
 import { formatCurrency, formatDate } from '../utils/orderRef';
+import { getPrices, DEFAULT_PRICES } from '../utils/priceCalc';
+import toast from 'react-hot-toast';
+
+const PRICE_FIELDS = [
+  { label: 'A4 B&W Single (GH₵/page)', key: 'a4_bw_single' },
+  { label: 'A4 B&W Double (GH₵/page)', key: 'a4_bw_double' },
+  { label: 'A4 Color Single (GH₵/page)', key: 'a4_color_single' },
+  { label: 'A4 Color Double (GH₵/page)', key: 'a4_color_double' },
+  { label: 'A3 B&W (GH₵/page)', key: 'a3_bw' },
+  { label: 'A3 Color (GH₵/page)', key: 'a3_color' },
+  { label: 'Spiral Binding (GH₵)', key: 'binding_spiral' },
+  { label: 'Hardcover Binding (GH₵)', key: 'binding_hardcover' },
+  { label: 'Campus Delivery (GH₵)', key: 'delivery' },
+];
 
 function timeAgo(iso) {
   const diff = Date.now() - new Date(iso).getTime();
@@ -36,6 +50,18 @@ export default function Admin() {
   const [orders, setOrders] = useState([]);
   const [filterStatus, setFilterStatus] = useState('all');
   const [activeTab, setActiveTab] = useState('orders');
+  const [prices, setPrices] = useState(() => getPrices());
+
+  const savePrices = () => {
+    localStorage.setItem('cp_prices', JSON.stringify(prices));
+    toast.success('Pricing updated successfully');
+  };
+
+  const resetPrices = () => {
+    localStorage.removeItem('cp_prices');
+    setPrices({ ...DEFAULT_PRICES });
+    toast.success('Prices reset to defaults');
+  };
 
   if (!user) return <Navigate to="/admin/login" replace />;
   if (user.role !== 'admin') return <Navigate to="/dashboard" replace />;
@@ -298,24 +324,24 @@ export default function Admin() {
           <div className="card">
             <h3 className="font-semibold text-gray-800 mb-5">Manage Pricing Rates</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { label: 'A4 B&W Single (GH₵/page)', defaultVal: '0.50' },
-                { label: 'A4 B&W Double (GH₵/page)', defaultVal: '0.80' },
-                { label: 'A4 Color Single (GH₵/page)', defaultVal: '2.00' },
-                { label: 'A4 Color Double (GH₵/page)', defaultVal: '3.50' },
-                { label: 'A3 B&W (GH₵/page)', defaultVal: '1.00' },
-                { label: 'A3 Color (GH₵/page)', defaultVal: '4.00' },
-                { label: 'Spiral Binding (GH₵)', defaultVal: '5.00' },
-                { label: 'Hardcover Binding (GH₵)', defaultVal: '15.00' },
-                { label: 'Campus Delivery (GH₵)', defaultVal: '3.00' },
-              ].map((f, i) => (
-                <div key={i}>
+              {PRICE_FIELDS.map(f => (
+                <div key={f.key}>
                   <label className="label">{f.label}</label>
-                  <input type="number" step="0.10" defaultValue={f.defaultVal} className="input" />
+                  <input
+                    type="number"
+                    step="0.10"
+                    min="0"
+                    value={prices[f.key]}
+                    onChange={e => setPrices(prev => ({ ...prev, [f.key]: parseFloat(e.target.value) || 0 }))}
+                    className="input"
+                  />
                 </div>
               ))}
             </div>
-            <button className="btn-primary mt-6">Save Pricing Changes</button>
+            <div className="flex gap-3 mt-6">
+              <button onClick={savePrices} className="btn-primary">Save Pricing Changes</button>
+              <button onClick={resetPrices} className="btn-outline text-gray-600">Reset to Defaults</button>
+            </div>
           </div>
         )}
       </div>
