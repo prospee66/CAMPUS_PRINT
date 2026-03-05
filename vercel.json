@@ -1,5 +1,7 @@
 {
+  "buildCommand": "cd printhub && npm install && npm run build",
   "outputDirectory": "printhub/dist",
+  "installCommand": "echo skip",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
