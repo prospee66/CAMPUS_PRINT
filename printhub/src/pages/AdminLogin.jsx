@@ -29,10 +29,6 @@ export default function AdminLogin() {
       navigate('/admin');
     } else {
       toast.error(result.error);
-      if (result.locked) {
-        setEmail('');
-        setPassword('');
-      }
     }
   };
 
@@ -103,11 +99,6 @@ export default function AdminLogin() {
             </button>
           </form>
 
-          <div className="mt-4 pt-4 border-t border-gray-700 text-center">
-            <p className="text-xs text-gray-500">
-              After 5 failed attempts, access is locked for 15 minutes.
-            </p>
-          </div>
         </div>
 
         {/* No link back to public site — intentionally isolated */}

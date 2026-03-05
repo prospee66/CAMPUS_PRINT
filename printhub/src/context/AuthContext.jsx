@@ -6,18 +6,6 @@ const AuthContext = createContext(null);
 const ADMIN_EMAIL = 'oppongprosper71@gmail.com';
 const ADMIN_PASSWORD = 'Prospee123@'; // In production: store hashed in env / backend
 
-const MAX_ATTEMPTS = 5;
-const LOCKOUT_MS = 15 * 60 * 1000; // 15 minutes
-
-function getLockout() {
-  try { return JSON.parse(localStorage.getItem('ph_lockout') || 'null'); } catch { return null; }
-}
-function setLockout(data) {
-  localStorage.setItem('ph_lockout', JSON.stringify(data));
-}
-function clearLockout() {
-  localStorage.removeItem('ph_lockout');
-}
 
 export function AuthProvider({ children }) {
   const [users, setUsers] = useState(() => {
@@ -69,40 +57,13 @@ export function AuthProvider({ children }) {
     return { success: true, role: found.role };
   };
 
-  // ─── Admin-only login with brute-force protection ────────────────────────────
+  // ─── Admin-only login ────────────────────────────────────────────────────────
   const adminLogin = (email, password) => {
-    // Check lockout
-    const lockout = getLockout();
-    if (lockout) {
-      const remaining = lockout.until - Date.now();
-      if (remaining > 0) {
-        const mins = Math.ceil(remaining / 60000);
-        return { success: false, error: `Too many failed attempts. Try again in ${mins} minute${mins > 1 ? 's' : ''}.`, locked: true };
-      }
-      clearLockout(); // lockout expired
-    }
-
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      clearLockout();
       saveSession({ id: 'admin', name: 'Admin', email: ADMIN_EMAIL, role: 'admin' });
       return { success: true, role: 'admin' };
     }
-
-    // Track failed attempt
-    const current = getLockout() || { attempts: 0, until: null };
-    const attempts = (current.attempts || 0) + 1;
-    const remaining = MAX_ATTEMPTS - attempts;
-
-    if (attempts >= MAX_ATTEMPTS) {
-      setLockout({ attempts, until: Date.now() + LOCKOUT_MS });
-      return { success: false, error: `Too many failed attempts. Account locked for 15 minutes.`, locked: true };
-    }
-
-    setLockout({ attempts, until: null });
-    return {
-      success: false,
-      error: `Incorrect credentials. ${remaining} attempt${remaining !== 1 ? 's' : ''} remaining.`,
-    };
+    return { success: false, error: 'Incorrect email or password' };
   };
 
   // ─── Forgot password (public users only — admin excluded) ────────────────────
